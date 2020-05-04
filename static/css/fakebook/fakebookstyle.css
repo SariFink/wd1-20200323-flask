@@ -1,0 +1,34 @@
+body {
+    background: #87cefa;
+    font-family: segoe ui;
+}
+
+
+
+h1 {
+    color: #4b0082;
+    text-align: center;
+    font-family: segoe ui;
+    border-left: 8px solid #6495ed;
+    background: #6495ed;
+}
+
+
+h2 {
+    color: #6495ed;
+    text-align: center;
+    font-family: segoe ui;
+}
+
+
+p {
+    color: #4b0082;
+    text-align: center;
+}
+
+
+ul {
+    text-align: center;
+    list-style-position: inside;
+    margin: 0 auto;
+}
