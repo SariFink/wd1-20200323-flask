@@ -32,7 +32,9 @@ def lucky_number():
 # TODO1: add boogle site
 # TODO2: add hairdresser site
 
-# mein neuer code kommt hier
+@app.route("/friseur")
+def friseur():
+    return render_template("friseurindex.html")
 
 
 if __name__ == '__main__':

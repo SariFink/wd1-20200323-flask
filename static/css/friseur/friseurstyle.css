@@ -1,0 +1,49 @@
+h1, h5 {
+    color: black;
+}
+
+.carousel-inner h5 {
+    color: black;
+}
+
+.headline {
+    margin-top: 50px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 500px;
+}
+
+.card-header {
+    color: black;
+}
+
+.col-sm {
+    margin-top: 50px;
+    }
+
+.contact input[type="text"] {
+  display: block;
+  margin-bottom: 25px;
+}
+
+/* das sind die gruenen titeltexte vom accordeon */
+button.btn.btn-link {
+    color: #5cb85c;
+    font-weight: bold;
+}
+
+/* das hier vergrößert den abstand zwischen h4 und p */
+.col-sm h4 {
+    margin-bottom: 1rem;
+}
+
+a.nav-link {
+    color: #5cb85c;
+    padding-top: 0.5rem;
+    padding-right: 0rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+}
+

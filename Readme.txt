@@ -4,6 +4,6 @@
 
 - Python 3
 - Flask Framework
-- Jinj2 Templating
+- Jinja Templating
 - Hosting on Heroku
 
