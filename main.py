@@ -45,7 +45,7 @@ def lucky_number():
             print("user guessed wrong: ", user_guess, "but secret number was: ", user_secret_cookie)
         return redirect(url_for('lucky_number'))
 
-@app.route("/lucky_number/succeess", methods=["GET"])
+@app.route("/lucky_number/success", methods=["GET"])
 def lucky_number_success():
     return render_template("lucky_number_success.html")
 
