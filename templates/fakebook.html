@@ -1,13 +1,15 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="fakebookstyle.css">
-    <title>Sari Fink | Fakebook</title>
-</head>
+{% extends "bootstrapframe.html" %}
 
-<body>
+{% block title %}
+    Fakebook
+{% endblock title %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/fakebook/fakebook.css">
+{% endblock css %}
+
+
+{% block content %}
     <h1>FAKEBOOK</h1>
 
     <p>Welcome to my Fakebook profile! </p>
@@ -34,5 +36,4 @@
         <img src="schnecken.jpg" width="25%" alt="Unsere Schnecken" style="margin-top:20px" float="left">
     </div>
 
-</body>
-</html>
+{% endblock content %}
