@@ -3,7 +3,7 @@ import uuid
 from flask import Flask, render_template, request, redirect, url_for, make_response
 import random
 import datetime
-from models import Users, SecretNumberStore, db
+from models import User, SecretNumberStore, db, Book
 
 app = Flask(__name__)
 db.create_all()
@@ -30,7 +30,7 @@ def about():
 def lucky_number():
     if request.method == "GET":
 
-        secret_number_identifier = request.cookies.get("lucky_number/secret_number_identifier")
+        secret_number_identifier = request.cookies.get(COOKIE_ID_STRING)
         secret_number_store = db.query(SecretNumberStore).filter_by(cookie_identifier=secret_number_identifier).first()
 
         if not secret_number_store:
@@ -48,26 +48,29 @@ def lucky_number():
         }
 
         response = make_response(render_template("lucky_number.html", **context))
-        response.set_cookie("lucky_number/secret_number_identifier", str(secret_number_store.cookie_identifier))
+        response.set_cookie(COOKIE_ID_STRING, str(secret_number_store.cookie_identifier))
         return response
 
-    elif request.method == "POST": \
-            user_guess = request.form.get('number')
-    secret_number_identifier = request.cookies.get("lucky_number/secret_number_identifier")
+    elif request.method == "POST":
+        user_guess = request.form.get('number')
+        cookie_identifier = request.cookies.get(COOKIE_ID_STRING)
 
-    secret_number_store = db.query(SecretNumberStore).filter_by(cookie_identifier=secret_number_identifier).first()
-    print("user guess:", user_guess)
-    print("secret_number_identifier:", secret_number_identifier)
-    print("secret_number:", secret_number_store.secret_number)
-    if secret_number_store and (int(user_guess) == secret_number_store.secret_number):
-        response = make_response(redirect(url_for('lucky_number_success')))
-        response.set_cookie("lucky_number/secret_number_identifier", expires=0)
+        secret_number_store = db.query(SecretNumberStore).filter_by(cookie_identifier=secret_number_identifier).first()
 
-        db.delete(secret_number_store)
-        db.commit()
-        return response
-    else:
-        return redirect(url_for('lucky_number'))
+        app.logger.info(f"Secret Number Guess: user guess: {user_guess}, cookie identifier: {cookie_identifier}")
+
+        if secret_number_store and (int(user_guess) == secret_number_store.secret_number):
+            response = make_response(redirect(url_for('lucky_number_success')))
+            response.set_cookie(COOKIE_ID_STRING, expires=0)
+
+            db.delete(secret_number_store)
+            db.commit()
+            app.logger.info(f"User guessed number correctly, removing number with identifier: {cookie_identifier}")
+            return response
+        else:
+            app.logger.info(f"User guessed number incorrectly, redirecting to guessing page")
+            app.logger.error(f"ERROR: bad guess! do not repeat!")
+            return redirect(url_for('lucky_number'))
 
 
 @app.route("/lucky_number/success", methods=["GET"])
@@ -78,17 +81,36 @@ def lucky_number_success():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        users = db.query(Users).all()
+        users = db.query(User).all()
         context = {
             "users": users
         }
         return render_template("register.html", **context)
     elif request.method == "POST":
         username = request.form.get("username")
-        new_user = Users(name=username, secret_number=10)
+        new_user = User(name=username)
+
         db.add(new_user)
-        db.commit()  # abspeichern aller geaddeten elemente, in einer transaktion.
+        db.commit()  # abspeichern aller geaddeten elemente in einer transaktion
         return redirect(url_for('register'))
+
+@app.route("/bookstore", methods=["GET", "POST"])
+def bookstore():
+    if request.method == "GET":
+        books = db.query(Book).all()
+        context = {
+            "books": books
+        }
+        return render_template("bookstore.html", **context)
+    elif request.method == "POST":
+        title = request.form.get("title")
+        author = request.form.get("author")
+        rating = int(request.form.get("rating"))
+        new_book = Book(title=title, author=author, rating=rating)
+
+        db.add(new_book)
+        db.commit()
+        return redirect(url_for('bookstore'))
 
 
 if __name__ == '__main__':

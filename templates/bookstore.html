@@ -1,0 +1,56 @@
+{% extends "bootstrapframe.html" %}
+
+{% block title%}
+Bookstore
+{% endblock title%}
+
+{% block css%}
+{% endblock css%}
+
+{% block content%}
+<div class="container container-fluid">
+    <h1>Bookstore</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="AuthorInput">Book Author</label>
+            <input type="text" class="form-control" id="AuthorInput" name="author" required>
+        </div>
+        <div class="form-group">
+            <label for="TitleInput">Book Title</label>
+            <input type="text" class="form-control" id="TitleInput" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="RatingInput">Rating</label>
+            <input type="text" class="form-control" id="RatingInput" name="rating" value="0">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+    <h3>Booklist</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <th>{{ book.id }}</th>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.rating }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
+
+
